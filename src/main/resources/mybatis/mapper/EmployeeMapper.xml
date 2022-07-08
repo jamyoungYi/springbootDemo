@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.springbootdemo.mapper.EmployeeMapper">
+    <resultMap id="EmployeeMapper" type="com.yi.springbootdemo.entities.Employee">
+        <id column="id" property="id"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="email"/>
+        <result column="gender" property="gender"/>
+        <result column="d_id" property="d_id"/>
+        <result column="birth" property="birth"/>
+        <association property="department" column="d_id" javaType="com.yi.springbootdemo.entities.Department" select="getDept"/>
+    </resultMap>
+    <select id="getDept" resultType="com.yi.springbootdemo.entities.Department">
+        select * from department where id = #{id}
+    </select>
+    <select id="getEmpById" resultMap="EmployeeMapper">
+        select * from employee where id = #{id}
+    </select>
+
+    <select id="getAllEmp" resultMap="EmployeeMapper">
+        select * from employee
+    </select>
+
+    <insert id="insertEmp" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        employee(last_name,email,gender,d_id,birth)
+        values
+        (#{lastName},#{email},#{gender},#{d_id},#{birth})
+    </insert>
+
+    <update id="updateEmp">
+        update employee set
+        last_name=#{lastName},
+        email=#{email},
+        gender=#{gender},
+        d_id=#{d_id},
+        birth=#{birth}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmp" parameterType="int">
+        delete from employee where id = #{id}
+    </delete>
+</mapper>

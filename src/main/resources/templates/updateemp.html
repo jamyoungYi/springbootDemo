@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑员工信息</title>
+    <link th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{commons/bar::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/bar::#sidebar}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h2>编辑员工</h2>
+            <div class="table-responsive">
+        <form th:action="@{/emp}" method="post">
+            <input type="hidden" name="_method" th:value="put"/>
+            <div class="form-group">
+                <input name="id" type="hidden" th:value="${emp.id}" class="form-control" placeholder="zhangsan">
+            </div>
+            <div class="form-group">
+                <label>LastName</label>
+                <input name="lastName" type="text" th:value="${emp.lastName}" class="form-control"
+                       placeholder="zhangsan">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input name="email" th:value="${emp.email}" type="email" class="form-control"
+                       placeholder="zhangsan@atguigu.com">
+            </div>
+            <div class="form-group">
+                <label>Gender</label><br/>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" value="1"
+                           th:checked="${emp.gender==1}">
+                    <label class="form-check-label">男</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" value="0"
+                           th:checked="${emp.gender==0}">
+                    <label class="form-check-label">女</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>department</label>
+                <select name="d_id" class="form-control">
+                    <option th:selected="${ emp.department.id==dept.id }" th:each="dept:${depts}"
+                            th:value="${dept.id}" th:text="${dept.departmentName}">1
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Birth</label>
+                <input name="birth" type="text" th:value="${#dates.format(emp.birth,'YYYY-MM-dd')}" class="form-control"
+                       placeholder="zhangsan">
+            </div>
+            <button type="submit" class="btn btn-primary">修改</button>
+        </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+</body>
+
+</html>
